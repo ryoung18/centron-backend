@@ -3,9 +3,14 @@ const router = new express.Router({ mergeParams: true });
 const { Product, Store } = require("../models");
 
 //   http://localhost:3001/api/products
-router.route("").get((req, res, next) => {
+
+router.route("/").get((req, res, next) => {
   return Product.find({})
-    .populate("stores")
+    .select("-_id -__v -createdAt -updatedAt")
+    .populate({
+      path: "stores",
+      select: "-__v -_id"
+    })
     .exec()
     .then(data => {
       res.send(
@@ -69,14 +74,28 @@ router.route("/populate").get((req, res, next) => {
   });
 });
 
+router.route("/:item").get((req, res, next) => {
+  return Product.find({ partNumber: req.params.item })
+    .select("-_id -__v -createdAt -updatedAt")
+    .populate({
+      path: "stores",
+      select: "-__v -_id"
+    })
+    .exec()
+    .then(data => {
+      res.send({ products: data });
+    });
+});
+
 module.exports = router;
 
 let tempData = [
   {
     item: {
-      category: "Hand Brace",
+      category: "Clavicle",
       partNumber: "hik1021",
-      title: "Hand Brace Strap Shoulder Support Brace",
+      title: "Clavicle Strap Shoulder Support Brace",
+      description: 'Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures. \n Foam padded hoop and loop closure straps provide proper fit and maintain even support. \n Features positional D-rings for proper adjustment. \nIdeal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\nFoam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\nEngineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\nFeatures positional D-rings for proper adjustment.\nlast Ideal for people with extended use of a computer.',
       images: "https://i.ebayimg.com/images/g/hnwAAOSw~oFXI~Yj/s-l1600.jpg"
     },
     stores: [
@@ -106,6 +125,7 @@ let tempData = [
       category: "Clavicle",
       partNumber: "hik1022",
       title: "Clavicle  Strap Shoulder Support Brace",
+      description: 'Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures. \n Foam padded hoop and loop closure straps provide proper fit and maintain even support. \n Features positional D-rings for proper adjustment. \nIdeal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\nFoam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\nEngineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\nFeatures positional D-rings for proper adjustment.\nlast Ideal for people with extended use of a computer.',
       images: "https://i.ebayimg.com/images/g/hnwAAOSw~oFXI~Yj/s-l1600.jpg"
     },
     stores: [
@@ -128,6 +148,7 @@ let tempData = [
       category: "Wrist",
       partNumber: "hik1023",
       title: "Wrist Strap Shoulder Support Brace",
+      description: 'Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures. \n Foam padded hoop and loop closure straps provide proper fit and maintain even support. \n Features positional D-rings for proper adjustment. \nIdeal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\nFoam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\nEngineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\nFeatures positional D-rings for proper adjustment.\nlast Ideal for people with extended use of a computer.',
       images: "https://i.ebayimg.com/images/g/hnwAAOSw~oFXI~Yj/s-l1600.jpg"
     },
     stores: [
@@ -147,9 +168,10 @@ let tempData = [
   },
   {
     item: {
-      category: "HFoot",
+      category: "Foot",
       partNumber: "hik1024",
-      title: "HFoot Strap Shoulder Support Brace",
+      title: "Foot Strap Shoulder Support Brace",
+      description: 'Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures. \n Foam padded hoop and loop closure straps provide proper fit and maintain even support. \n Features positional D-rings for proper adjustment. \nIdeal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\nFoam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\n Engineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\n Features positional D-rings for proper adjustment.\n Ideal for people with extended use of a computer.\nEngineering designed to help prevent shoulder slump and minimize movement while treating clavicular fractures.\n Foam padded hoop and loop closure straps provide proper fit and maintain even support.\nFeatures positional D-rings for proper adjustment.\nlast Ideal for people with extended use of a computer.',
       images: "https://i.ebayimg.com/images/g/hnwAAOSw~oFXI~Yj/s-l1600.jpg"
     },
     stores: [

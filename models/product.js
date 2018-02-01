@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema(
     category: String,
     partNumber: {type: String, required: true, unique: true, lowercase: true},
     title: String,
+    description: String,
     stores: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Store'
